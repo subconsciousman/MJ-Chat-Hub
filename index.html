@@ -1,0 +1,794 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff8ed">
+  <meta name="description" content="Discover delicious Pani Puri, Sev Puri, Bhel Puri, Dahi Puri, sandwiches and Maggi at MJ Chat Hub, Besant Nagar, Chennai. Order directly on WhatsApp.">
+  <title>MJ Chat Hub | Fresh Chaats & Street Food in Besant Nagar</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            cream: '#fff8ed',
+            orange: '#ed7028',
+            dark: '#261b16',
+            green: '#18794e'
+          },
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+            display: ['Outfit', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #fff8ed;
+      color: #261b16;
+      overflow-x: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Outfit', sans-serif;
+    }
+
+    .hero-bg {
+      background:
+        radial-gradient(circle at 85% 20%, rgba(237,112,40,.13), transparent 30%),
+        radial-gradient(circle at 10% 90%, rgba(24,121,78,.09), transparent 35%),
+        #fff8ed;
+    }
+
+    .food-card {
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .food-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(65,39,20,.09);
+    }
+
+    .btn-primary {
+      background: #ed7028;
+      transition: all .25s ease;
+    }
+
+    .btn-primary:hover {
+      background: #d95d1b;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(237,112,40,.25);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .food-visual {
+      background: linear-gradient(145deg,#fff0d9,#ffe1c1);
+    }
+
+    .cart-bounce {
+      animation: bounce .3s ease;
+    }
+
+    @keyframes bounce {
+      50% { transform: scale(1.15); }
+    }
+
+    .floating-wa {
+      box-shadow: 0 5px 25px rgba(37,211,102,.3);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        animation: none !important;
+        transition: none !important;
+      }
+
+      .reveal {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ================= CONFIGURATION ================= -->
+<script>
+const CONFIG = {
+  shopName: "MJ Chat Hub",
+  whatsapp: "919500104674",
+  owner: "Mohamed Jalal",
+  location: "Besant Nagar, Chennai",
+  creator: "MJ Web Solutions"
+};
+
+const PRODUCTS = [
+  {
+    id: 1,
+    name: "Pani Puri",
+    description: "Crispy puris with flavourful fillings.",
+    detail: "5–6 pieces",
+    price: 55,
+    emoji: "🥣",
+    category: "chaat",
+    tag: "Street Food Favourite"
+  },
+  {
+    id: 2,
+    name: "Sev Puri",
+    description: "A delicious combination of sev and chutneys.",
+    detail: "6 pieces",
+    price: 85,
+    emoji: "🫓",
+    category: "chaat"
+  },
+  {
+    id: 3,
+    name: "Bhel Puri",
+    description: "A classic Indian street-food snack.",
+    detail: "Bhel Puri",
+    price: 75,
+    emoji: "🥗",
+    category: "chaat"
+  },
+  {
+    id: 4,
+    name: "Dahi Puri",
+    description: "Puris served with a dahi-inspired combination.",
+    detail: "5–6 pieces",
+    price: 86,
+    emoji: "🥙",
+    category: "chaat"
+  },
+  {
+    id: 5,
+    name: "Dahi Papdi Chaat",
+    description: "A tempting papdi chaat option.",
+    detail: "6 pieces",
+    price: 95,
+    emoji: "🍽️",
+    category: "chaat"
+  },
+  {
+    id: 6,
+    name: "Khakhra Sandwich / Veg Sandwich",
+    description: "A tasty sandwich option for snack time.",
+    detail: "Sandwich",
+    price: 80,
+    emoji: "🥪",
+    category: "sandwich"
+  },
+  {
+    id: 7,
+    name: "Classic Maggi",
+    description: "A comforting classic Maggi option.",
+    detail: "Classic",
+    price: 80,
+    emoji: "🍜",
+    category: "maggi"
+  },
+  {
+    id: 8,
+    name: "Special / Cheese / Peri-Peri Maggi",
+    description: "Choose your preferred Maggi variation.",
+    detail: "Special variants",
+    price: 189,
+    emoji: "🧀",
+    category: "maggi"
+  }
+];
+</script>
+
+<!-- ================= NAVIGATION ================= -->
+<header class="sticky top-0 z-50 bg-cream/95 backdrop-blur-md border-b border-orange-100">
+  <nav class="max-w-7xl mx-auto px-5 py-3 flex items-center justify-between">
+
+    <a href="#" class="flex items-center gap-2">
+      <div class="w-11 h-11 rounded-xl bg-orange flex items-center justify-center text-2xl">
+        🥘
+      </div>
+      <div>
+        <div class="font-display font-extrabold text-xl leading-tight">
+          MJ <span class="text-orange">Chat Hub</span>
+        </div>
+        <div class="text-[10px] tracking-widest uppercase text-gray-500">
+          Chaats & More
+        </div>
+      </div>
+    </a>
+
+    <div class="hidden md:flex items-center gap-8 font-semibold text-sm">
+      <a href="#home" class="hover:text-orange">Home</a>
+      <a href="#menu" class="hover:text-orange">Our Menu</a>
+      <a href="#about" class="hover:text-orange">About Us</a>
+      <a href="#contact" class="hover:text-orange">Contact</a>
+    </div>
+
+    <a href="#menu" class="btn-primary text-white px-5 py-3 rounded-full text-sm font-bold">
+      Order Now ↗
+    </a>
+
+  </nav>
+</header>
+
+<!-- ================= HERO ================= -->
+<main>
+
+<section id="home" class="hero-bg relative overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 py-16 md:py-24 grid md:grid-cols-2 gap-12 items-center">
+
+    <div class="reveal">
+      <div class="inline-flex items-center gap-2 bg-orange/10 text-orange px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider mb-6">
+        <span>📍</span> Besant Nagar, Chennai
+      </div>
+
+      <h1 class="text-5xl md:text-7xl font-black leading-[1.08] tracking-tight">
+        Your Street Food
+        <span class="text-orange">Cravings</span>
+        Start Here.
+      </h1>
+
+      <p class="text-gray-600 text-lg mt-6 leading-relaxed max-w-lg">
+        From Pani Puri to Maggi, explore your favourite chaat and snack options at MJ Chat Hub.
+      </p>
+
+      <div class="flex flex-wrap gap-3 mt-8">
+        <a href="#menu" class="btn-primary text-white px-7 py-4 rounded-full font-bold">
+          Explore Menu →
+        </a>
+
+        <a href="#contact" class="border border-orange/30 px-7 py-4 rounded-full font-bold hover:bg-orange/10 transition">
+          Contact Us
+        </a>
+      </div>
+
+      <div class="flex flex-wrap gap-5 mt-9 text-sm text-gray-600">
+        <span>🥣 Chaat Menu</span>
+        <span>🥪 Sandwiches</span>
+        <span>🍜 Maggi</span>
+      </div>
+    </div>
+
+    <div class="reveal relative">
+      <div class="absolute inset-5 bg-orange/10 blur-3xl rounded-full"></div>
+
+      <div class="relative food-visual rounded-[2.5rem] p-5 md:p-10 rotate-1">
+        <div class="grid grid-cols-2 gap-4">
+
+          <div class="bg-white rounded-3xl p-5 shadow-sm text-center">
+            <div class="text-7xl mb-3">🥣</div>
+            <p class="font-display font-bold text-lg">Pani Puri</p>
+            <p class="text-orange font-bold">₹55</p>
+          </div>
+
+          <div class="bg-white rounded-3xl p-5 shadow-sm text-center mt-8">
+            <div class="text-7xl mb-3">🥗</div>
+            <p class="font-display font-bold text-lg">Bhel Puri</p>
+            <p class="text-orange font-bold">₹75</p>
+          </div>
+
+          <div class="bg-white rounded-3xl p-5 shadow-sm text-center">
+            <div class="text-7xl mb-3">🥪</div>
+            <p class="font-display font-bold text-lg">Sandwich</p>
+            <p class="text-orange font-bold">₹80</p>
+          </div>
+
+          <div class="bg-white rounded-3xl p-5 shadow-sm text-center mt-8">
+            <div class="text-7xl mb-3">🍜</div>
+            <p class="font-display font-bold text-lg">Maggi</p>
+            <p class="text-orange font-bold">From ₹80</p>
+          </div>
+
+        </div>
+        <div class="text-center mt-6 text-sm font-bold text-gray-500">
+          GOOD FOOD. GREAT CRAVINGS.
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= VALUE PROPOSITION ================= -->
+<section class="py-14 bg-white">
+  <div class="max-w-7xl mx-auto px-5">
+
+    <div class="grid sm:grid-cols-3 gap-8 text-center">
+
+      <div class="reveal">
+        <div class="text-4xl mb-3">🌶️</div>
+        <h3 class="font-bold text-lg">Chaat Choices</h3>
+        <p class="text-sm text-gray-500 mt-2">Explore a selection of popular Indian chaat options.</p>
+      </div>
+
+      <div class="reveal">
+        <div class="text-4xl mb-3">💰</div>
+        <h3 class="font-bold text-lg">Clear Menu Pricing</h3>
+        <p class="text-sm text-gray-500 mt-2">See the listed prices before placing your order.</p>
+      </div>
+
+      <div class="reveal">
+        <div class="text-4xl mb-3">📲</div>
+        <h3 class="font-bold text-lg">WhatsApp Ordering</h3>
+        <p class="text-sm text-gray-500 mt-2">Send your selected items directly through WhatsApp.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= MENU ================= -->
+<section id="menu" class="py-20 px-5">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="text-center max-w-2xl mx-auto mb-12 reveal">
+      <span class="text-orange font-bold uppercase text-xs tracking-[.2em]">
+        WHAT'S ON THE MENU?
+      </span>
+
+      <h2 class="text-4xl md:text-5xl font-black mt-3">
+        Explore Our <span class="text-orange">Menu</span>
+      </h2>
+
+      <p class="text-gray-500 mt-4">
+        Pick your favourites, choose your quantity and send your order on WhatsApp.
+      </p>
+    </div>
+
+    <!-- Category filters -->
+    <div class="flex flex-wrap justify-center gap-3 mb-10">
+      <button class="filter-btn bg-orange text-white px-5 py-2 rounded-full text-sm font-bold" data-filter="all">All Items</button>
+      <button class="filter-btn bg-white px-5 py-2 rounded-full text-sm font-bold" data-filter="chaat">Chaats</button>
+      <button class="filter-btn bg-white px-5 py-2 rounded-full text-sm font-bold" data-filter="sandwich">Sandwiches</button>
+      <button class="filter-btn bg-white px-5 py-2 rounded-full text-sm font-bold" data-filter="maggi">Maggi</button>
+    </div>
+
+    <div id="menuGrid" class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <!-- Generated by JavaScript -->
+    </div>
+
+    <p class="text-center text-xs text-gray-400 mt-8">
+      Menu prices are displayed in Indian Rupees (₹).
+    </p>
+
+  </div>
+</section>
+
+<!-- ================= ORDER CART ================= -->
+<section id="order" class="py-16 bg-[#291d17] text-white">
+  <div class="max-w-4xl mx-auto px-5">
+
+    <div class="text-center reveal">
+      <div class="text-4xl mb-4">🛍️</div>
+      <h2 class="text-3xl md:text-4xl font-black">
+        Your <span class="text-orange">Order Summary</span>
+      </h2>
+      <p class="text-gray-400 mt-3">
+        Review your selected items before sending your order.
+      </p>
+    </div>
+
+    <div class="mt-8 bg-white/5 border border-white/10 rounded-3xl p-5 md:p-8">
+
+      <div id="cartItems" class="space-y-4">
+        <p class="text-center text-gray-400 py-8">
+          Your cart is empty. Explore the menu to get started!
+        </p>
+      </div>
+
+      <div class="border-t border-white/10 mt-6 pt-5 flex justify-between items-center">
+        <span class="font-semibold text-gray-300">Total Amount</span>
+        <span id="cartTotal" class="text-3xl font-black text-orange">₹0</span>
+      </div>
+
+      <button id="checkoutBtn" onclick="checkout()" disabled
+        class="w-full mt-6 bg-green-600 hover:bg-green-700 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded-full py-4 font-bold transition">
+        Send Order via WhatsApp ↗
+      </button>
+
+      <p class="text-center text-xs text-gray-500 mt-4">
+        Your order will be sent to MJ Chat Hub for confirmation.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section id="about" class="py-20 bg-white px-5">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+
+    <div class="reveal">
+      <div class="food-visual rounded-[2rem] p-10 text-center">
+        <div class="text-9xl">🥘</div>
+        <h3 class="font-display font-black text-3xl mt-5">
+          MJ Chat Hub
+        </h3>
+        <p class="text-orange font-semibold mt-2">
+          Chaats & More
+        </p>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <span class="text-orange font-bold uppercase text-xs tracking-widest">
+        ABOUT OUR SHOP
+      </span>
+
+      <h2 class="text-4xl md:text-5xl font-black mt-3 leading-tight">
+        A Place for Your
+        <span class="text-orange">Chaat Cravings.</span>
+      </h2>
+
+      <p class="text-gray-600 mt-6 leading-relaxed">
+        Welcome to MJ Chat Hub, located in Besant Nagar, Chennai. Explore our menu of Indian chaat favourites, sandwiches and Maggi.
+      </p>
+
+      <p class="text-gray-600 mt-4 leading-relaxed">
+        Browse the menu, select what you love and connect with us directly on WhatsApp to place your order.
+      </p>
+
+      <a href="#menu" class="inline-block btn-primary text-white px-7 py-4 rounded-full font-bold mt-7">
+        Discover the Menu →
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= OBJECTION REDUCTION ================= -->
+<section class="py-16 px-5">
+  <div class="max-w-4xl mx-auto text-center reveal">
+
+    <span class="text-orange font-bold text-xs uppercase tracking-widest">
+      EASY TO GET STARTED
+    </span>
+
+    <h2 class="text-3xl md:text-4xl font-black mt-3">
+      Ready to Place Your Order?
+    </h2>
+
+    <div class="grid sm:grid-cols-3 gap-6 mt-10 text-left">
+
+      <div class="bg-white rounded-2xl p-6">
+        <div class="text-3xl">📖</div>
+        <h3 class="font-bold mt-4">1. Browse</h3>
+        <p class="text-sm text-gray-500 mt-2">Explore the available menu and prices.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6">
+        <div class="text-3xl">🛒</div>
+        <h3 class="font-bold mt-4">2. Select</h3>
+        <p class="text-sm text-gray-500 mt-2">Choose your favourite items and quantities.</p>
+      </div>
+
+      <div class="bg-white rounded-2xl p-6">
+        <div class="text-3xl">💬</div>
+        <h3 class="font-bold mt-4">3. WhatsApp</h3>
+        <p class="text-sm text-gray-500 mt-2">Send your order and confirm the details with us.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================= CONTACT CTA ================= -->
+<section id="contact" class="py-20 px-5">
+  <div class="max-w-5xl mx-auto bg-[#ed7028] rounded-[2.5rem] p-8 md:p-14 text-white text-center relative overflow-hidden reveal">
+
+    <div class="absolute -right-10 -top-16 text-[180px] opacity-10">🥣</div>
+
+    <div class="relative z-10">
+      <div class="text-5xl mb-5">😋</div>
+
+      <h2 class="text-4xl md:text-5xl font-black">
+        Got a Chaat Craving?
+      </h2>
+
+      <p class="text-white/85 mt-5 max-w-xl mx-auto">
+        Connect with MJ Chat Hub on WhatsApp to enquire about the menu and place your order.
+      </p>
+
+      <a id="contactWhatsApp" href="#" target="_blank" rel="noopener"
+        class="inline-flex items-center gap-3 bg-white text-green-700 px-8 py-4 rounded-full font-black mt-8 hover:scale-105 transition">
+        <span class="text-2xl">💬</span>
+        Chat With Us on WhatsApp
+      </a>
+
+      <div class="mt-7 text-sm text-white/85">
+        📍 Besant Nagar, Chennai
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="bg-[#211712] text-white pt-14 pb-8 px-5">
+
+  <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-10">
+
+    <div>
+      <h2 class="font-display text-2xl font-black">
+        MJ <span class="text-orange">Chat Hub</span>
+      </h2>
+      <p class="text-gray-400 text-sm mt-4 leading-relaxed">
+        Your destination for chaat, sandwiches and Maggi in Besant Nagar, Chennai.
+      </p>
+    </div>
+
+    <div>
+      <h3 class="font-bold text-lg">Quick Links</h3>
+      <div class="flex flex-col gap-3 text-gray-400 text-sm mt-4">
+        <a href="#home" class="hover:text-orange">Home</a>
+        <a href="#menu" class="hover:text-orange">Our Menu</a>
+        <a href="#about" class="hover:text-orange">About Us</a>
+        <a href="#contact" class="hover:text-orange">Contact</a>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="font-bold text-lg">Contact Information</h3>
+      <div class="text-gray-400 text-sm mt-4 space-y-3">
+        <p>📍 Besant Nagar, Chennai</p>
+        <p>👤 Owned by: Mohamed Jalal</p>
+        <p>📞 +91 95001 04674</p>
+        <a id="footerWhatsApp" href="#" target="_blank" rel="noopener" class="inline-block text-orange font-bold hover:underline">
+          Contact on WhatsApp ↗
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="max-w-7xl mx-auto border-t border-white/10 mt-12 pt-6 flex flex-col md:flex-row justify-between gap-3 text-xs text-gray-500">
+    <p>© <span id="year"></span> MJ Chat Hub. All rights reserved.</p>
+    <p>Website crafted by <a href="https://wa.me/919500104674" target="_blank" rel="noopener" class="text-orange font-semibold">MJ Web Solutions</a></p>
+  </div>
+
+</footer>
+
+<!-- ================= FLOATING WHATSAPP ================= -->
+<a id="floatingWhatsApp" href="#" target="_blank" rel="noopener"
+  aria-label="Contact MJ Chat Hub on WhatsApp"
+  class="floating-wa fixed bottom-5 right-5 z-50 bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full flex items-center justify-center text-3xl transition hover:scale-110">
+  ☎
+</a>
+
+<!-- ================= JAVASCRIPT ================= -->
+<script>
+const cart = {};
+
+// WhatsApp URL helper
+function whatsappURL(message) {
+  return `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(message)}`;
+}
+
+// Render menu
+function renderMenu(filter = "all") {
+  const grid = document.getElementById("menuGrid");
+
+  const filtered = PRODUCTS.filter(product =>
+    filter === "all" || product.category === filter
+  );
+
+  grid.innerHTML = filtered.map(product => `
+    <article class="food-card bg-white rounded-3xl overflow-hidden border border-orange-50 shadow-sm">
+
+      <div class="food-visual h-44 flex items-center justify-center relative">
+        <span class="text-8xl">${product.emoji}</span>
+        ${product.tag ? `
+          <span class="absolute top-3 left-3 bg-white text-orange text-[10px] font-bold px-3 py-2 rounded-full">
+            ${product.tag}
+          </span>
+        ` : ""}
+      </div>
+
+      <div class="p-5">
+        <div class="text-xs text-gray-400 font-semibold uppercase tracking-wider">
+          ${product.detail}
+        </div>
+
+        <h3 class="font-display font-bold text-lg mt-2 leading-snug min-h-[48px]">
+          ${product.name}
+        </h3>
+
+        <p class="text-gray-500 text-sm mt-2 min-h-[40px]">
+          ${product.description}
+        </p>
+
+        <div class="flex justify-between items-center mt-5 gap-2">
+          <span class="text-orange font-black text-xl">
+            ₹${product.price}
+          </span>
+
+          <div class="flex items-center gap-2">
+            <button onclick="changeQty(${product.id}, -1)"
+              aria-label="Decrease ${product.name} quantity"
+              class="w-9 h-9 rounded-full border border-orange-200 font-bold hover:bg-orange-50">
+              −
+            </button>
+
+            <span id="qty-${product.id}" class="font-bold w-5 text-center">
+              ${cart[product.id] || 0}
+            </span>
+
+            <button onclick="changeQty(${product.id}, 1)"
+              aria-label="Increase ${product.name} quantity"
+              class="w-9 h-9 rounded-full bg-orange text-white font-bold hover:bg-orange-600">
+              +
+            </button>
+          </div>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+// Change quantity
+function changeQty(id, change) {
+  const current = cart[id] || 0;
+  const next = Math.max(0, current + change);
+
+  if (next === 0) {
+    delete cart[id];
+  } else {
+    cart[id] = next;
+  }
+
+  const qty = document.getElementById(`qty-${id}`);
+  if (qty) {
+    qty.textContent = cart[id] || 0;
+    qty.classList.remove("cart-bounce");
+    void qty.offsetWidth;
+    qty.classList.add("cart-bounce");
+  }
+
+  renderCart();
+}
+
+// Render cart
+function renderCart() {
+  const container = document.getElementById("cartItems");
+  const selected = PRODUCTS.filter(p => cart[p.id]);
+
+  if (selected.length === 0) {
+    container.innerHTML = `
+      <p class="text-center text-gray-400 py-8">
+        Your cart is empty. Explore the menu to get started!
+      </p>
+    `;
+  } else {
+    container.innerHTML = selected.map(product => `
+      <div class="flex justify-between items-center gap-3 border-b border-white/10 pb-4">
+        <div>
+          <p class="font-bold">${product.name}</p>
+          <p class="text-gray-400 text-xs mt-1">
+            ₹${product.price} × ${cart[product.id]}
+          </p>
+        </div>
+        <div class="flex items-center gap-3">
+          <span class="font-bold text-orange">
+            ₹${product.price * cart[product.id]}
+          </span>
+          <button onclick="changeQty(${product.id}, -${cart[product.id]})"
+            aria-label="Remove ${product.name}"
+            class="text-gray-400 hover:text-red-400 text-xl">
+            ×
+          </button>
+        </div>
+      </div>
+    `).join("");
+  }
+
+  const total = selected.reduce(
+    (sum, product) => sum + product.price * cart[product.id], 0
+  );
+
+  document.getElementById("cartTotal").textContent = `₹${total}`;
+  document.getElementById("checkoutBtn").disabled = selected.length === 0;
+}
+
+// Checkout
+function checkout() {
+  const selected = PRODUCTS.filter(p => cart[p.id]);
+
+  if (!selected.length) return;
+
+  let total = 0;
+
+  let message = `Hello ${CONFIG.shopName}! 👋\n\nI'd like to place an order:\n\n`;
+
+  selected.forEach(product => {
+    const subtotal = product.price * cart[product.id];
+    total += subtotal;
+
+    message += `• ${product.name}\n`;
+    message += `  Quantity: ${cart[product.id]}\n`;
+    message += `  Amount: ₹${subtotal}\n\n`;
+  });
+
+  message += `--------------------\n`;
+  message += `Total: ₹${total}\n`;
+  message += `--------------------\n\n`;
+  message += `Please confirm my order and the availability. Thank you!`;
+
+  window.open(whatsappURL(message), "_blank", "noopener");
+}
+
+// Filter buttons
+document.querySelectorAll(".filter-btn").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.classList.remove("bg-orange", "text-white");
+      btn.classList.add("bg-white");
+    });
+
+    button.classList.add("bg-orange", "text-white");
+    button.classList.remove("bg-white");
+
+    renderMenu(button.dataset.filter);
+  });
+});
+
+// Contact links
+const generalMessage = `Hello ${CONFIG.shopName}! I'd like to know more about your menu.`;
+
+["contactWhatsApp", "footerWhatsApp", "floatingWhatsApp"].forEach(id => {
+  document.getElementById(id).href = whatsappURL(generalMessage);
+});
+
+// Copyright year
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// Scroll animations
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll(".reveal").forEach(element => {
+  observer.observe(element);
+});
+
+// Initial render
+renderMenu();
+renderCart();
+</script>
+
+</body>
+</html>
